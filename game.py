@@ -196,14 +196,11 @@ class Game:
 			if winner == 'B':
 				first.won()
 				second.lost()
-				# print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 				print(first.name, "wins")
 			else:
 				first.lost()
 				second.won()
-				# print("###########################################################")
 				print(second.name, "wins")
-			# first, second = second, first
 
 
 class Player:
@@ -302,12 +299,6 @@ class MinimaxPlayer(Game, Player):
 		for m in moves:
 			next_board = self.nextBoard(board, self.opponent(self.side), m)
 			child_value, child_action = self.max_value(next_board, current_depth + 1, depth)
-			# if child_value == v:
-			# 	random_number = random.randint(0, 1)
-			# 	if random_number == 1:
-			# 		v = child_value
-			# 		action = m
-			# else:
 			if child_value < v:
 				action = m
 			v = min(v, child_value)
@@ -324,12 +315,6 @@ class MinimaxPlayer(Game, Player):
 		for m in moves:
 			next_board = self.nextBoard(board, self.side, m)
 			child_value, child_action = self.min_value(next_board, current_depth + 1, depth)
-			# if child_value == v:
-			# 	random_number = random.randint(0, 1)
-			# 	if random_number == 1:
-			# 		v = child_value
-			# 		action = m
-			# else:
 			if child_value > v:
 				action = m
 			v = max(v, child_value)
@@ -381,12 +366,6 @@ class alphaBetaPrunning(Game, Player):
 		for m in moves:
 			next_board = self.nextBoard(board, self.opponent(self.side), m)
 			child_value, child_action = self.max_value(next_board, current_depth + 1, depth, a, b)
-			# if child_value == v:
-			# 	random_number = random.randint(0, 1)
-			# 	if random_number == 1:
-			# 		v = child_value
-			# 		action = m
-			# else:
 			if child_value < v:
 				action = m
 			v = min(v, child_value)
@@ -405,12 +384,6 @@ class alphaBetaPrunning(Game, Player):
 		for m in moves:
 			next_board = self.nextBoard(board, self.side, m)
 			child_value, child_action = self.min_value(next_board, current_depth + 1, depth, a, b)
-			# if child_value == v:
-			# 	random_number = random.randint(0, 1)
-			# 	if random_number == 1:
-			# 		v = child_value
-			# 		action = m
-			# else:
 			if child_value > v:
 				action = m
 			v = max(v, child_value)
@@ -437,7 +410,6 @@ class alphaBetaPrunning(Game, Player):
 			else:
 				opponent_element.append(a)
 		e = ((4*len(self_moves) + len(self_element)) - (len(opponent_moves) + len(opponent_element)))
-		 # / ((3*len(self_moves) + len(self_element)) + (len(opponent_moves) + len(opponent_element)))
 		return e
 
 def call_in_time(game, player1, player2, number):
@@ -467,61 +439,24 @@ if __name__ == '__main__':
 	simple2.initialize('W')
 	# game.playOneGame(simple1, simple2, True)
 
-	# game.board =  [['B', '.','B'] ,['.', 'B', 'W'] ,['.', 'W', 'B']]
-	# print( human2.getMove(game.board))
-	# print(game)
-	# print(human2.generateMoves(game.board , human2.side))
-	
-
-	# minMax1 = MinimaxPlayer(d)
-	# minMax1.initialize('B')
-	# minMax2 = MinimaxPlayer(d)
-	# minMax2.initialize('W')
-	# game.playOneGame(minMax1, minMax2, True)
-
 	minmax1 = MinimaxPlayer(diminsion)
 	minmax1.initialize('B', depth)
 	minmax2 = MinimaxPlayer(diminsion)
 	minmax2.initialize('W', depth)
-	# show = True
-	# play minmax vs minmax
-	# game.playOneGame(minmax1, minmax2, True)
 	# game.playOneGame(minmax1, minmax2, True)
 
 
-	pur1 = alphaBetaPrunning(diminsion)
-	pur2 = alphaBetaPrunning(diminsion)
-	pur1.initialize('B', depth)
-	pur2.initialize('W', depth)
-	# play a-b vs a-b
-	# game.playOneGame(pur1, pur2, True)
-
-	# game.playNGames(50, pur1, pur2, False)
-	# print("player B wins ", pur1.wins/50)
-	# print("player W wins ", pur2.wins/50)
-
+	prun1 = alphaBetaPrunning(diminsion)
+	prun2 = alphaBetaPrunning(diminsion)
+	prun1.initialize('B', depth)
+	prun2.initialize('W', depth)
+	# game.playOneGame(prun1, prun2, True)
 
 	# play human vs minmax
 	# game.playOneGame(minmax1, human1, True)
 
-	# game.playNGames(60, rand1, rand2, show)
-	# print("$$$$$ number of Black wins: ", rand1.wins)
-	# print("$$$$$ number of White wins: ", rand2.wins)
 	time1 = call_in_time(game, minmax1, minmax2, 1)
-	# time2 = call_in_time(game, pur1, pur2, 1)
+	time2 = call_in_time(game, pur1, pur2, 1)
 	print("time for minimax game is ", time1)
-	# print("time for alpha beta purunning is ", time2)
-
-	# import matplotlib.pyplot as plt
-	# depth = [0 , 1 , 2 , 3 , 4]
-	# Minimax_time = [0.0, 0.17 ,1.98, 44.69, 477.58]
-	# alphaBeta_time = [0.0, 0.21, 1.02, 6.39, 30.11]
-
-	# plt.scatter(depth , Minimax_time , label = 'MiniMax' , color = 'black')
-	# plt.scatter(depth , alphaBeta_time , label = 'alphaBeta' , color = 'red')
-	# plt.legend()
-	# plt.xlabel('algorithem depth')
-	# plt.ylabel('time')
-	# plt.show()
-
+	print("time for alpha beta purunning is ", time2)
 
